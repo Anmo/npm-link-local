@@ -17,12 +17,12 @@ var npmInstall = function(modulePath) {
 };
 
 var linkToNodeModules = function(modulePath) {
-	var target = path.join(process.cwd(), modulePath);
+	var target = path.resolve(process.cwd(), modulePath);
 
 	var moduleName = modulePath.split('/');
 	moduleName = moduleName[moduleName.length - 1];
 
-	var link = path.join(process.cwd(), node_modules, moduleName);
+	var link = path.resolve(process.cwd(), node_modules, moduleName);
 
 	//try to create node_modules
 	try {
