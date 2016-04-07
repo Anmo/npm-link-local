@@ -39,7 +39,7 @@ var linkToNodeModules = function(modulePath) {
 
 	console.log(link, '->', target);
 
-	return fs.symlinkSync(target, link, 'dir');
+	return fs.symlinkSync(target, link, 'junction');
 };
 
 var npmLinkLocal = function(modulesPath) {
