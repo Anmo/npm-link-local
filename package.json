@@ -4,24 +4,27 @@
   "description": "like npm link, but just local (npm install and symlink to node-modules)",
   "main": "index.js",
   "bin": {
-	"npm-link-local": "cli.js"
+    "npm-link-local": "cli.js"
   },
   "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/Anmo/npm-link-local.git"
+    "type": "git",
+    "url": "git+https://github.com/Anmo/npm-link-local.git"
   },
   "keywords": [
-	"npm",
-	"link",
-	"local"
+    "npm",
+    "link",
+    "local"
   ],
   "author": "Anmo",
   "license": "MIT",
   "bugs": {
-	"url": "https://github.com/Anmo/npm-link-local/issues"
+    "url": "https://github.com/Anmo/npm-link-local/issues"
   },
-  "homepage": "https://github.com/Anmo/npm-link-local#readme"
+  "homepage": "https://github.com/Anmo/npm-link-local#readme",
+  "dependencies": {
+    "optimist": "^0.6.1"
+  }
 }

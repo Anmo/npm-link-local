@@ -16,7 +16,7 @@ var npmInstall = function(modulePath) {
 	});
 };
 
-var linkToNodeModules = function(modulePath) {
+var linkToNodeModules = function(modulePath, relative) {
 	var target = path.resolve(process.cwd(), modulePath);
 
 	var moduleName = modulePath.split('/');
@@ -36,20 +36,33 @@ var linkToNodeModules = function(modulePath) {
 			//link didn't exists
 		}
 	}
-
+	if (relative) {
+		target = relativizePath(target, link);
+	}
 	console.log(link, '->', target);
+
 
 	return fs.symlinkSync(target, link, 'junction');
 };
 
-var npmLinkLocal = function(modulesPath) {
-	if (typeof modulesPath=== 'string') {
-		modulesPath= [modulesPath];
-	}
+function relativizePath(target, link) {
+	var separator = /[\\/]/
+	var targetArr = target.split(separator),
+	    linkArr = link.split(separator),
+	    common = 0;
+	while (targetArr[common] === linkArr[common]) ++common
+	if (common === 0) return target;
+	targetArr = targetArr.slice(common)
+	linkArr = linkArr.slice(common)
+	var prefix = Array(linkArr.length).join('../') || './'
+	return prefix + targetArr.join('/')
+}
 
+var npmLinkLocal = function(opts) {
+    var modulesPath = opts._;
 	for (var i = 0, l = modulesPath.length; i < l; i++) {
 		npmInstall(modulesPath[i]);
-		linkToNodeModules(modulesPath[i]);
+		linkToNodeModules(modulesPath[i], opts.relative);
 	}
 };
 
