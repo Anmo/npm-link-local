@@ -13,5 +13,11 @@ npm-link-local /first/module /second/module
 npm-link-local relative/path
 ```
 
+You can also use --relative to make a symlink with a relative path
+
+```
+npm-link-local ~/Projects/test --relative
+```
+
 # TODO
 Tests

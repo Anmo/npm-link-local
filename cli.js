@@ -3,4 +3,4 @@
 
 var npmLinkLocal = require('./');
 
-npmLinkLocal(process.argv.slice(2));
+npmLinkLocal(require('optimist').argv)
