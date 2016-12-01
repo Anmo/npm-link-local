@@ -19,5 +19,11 @@ You can also use --relative to make a symlink with a relative path
 npm-link-local ~/Projects/test --relative
 ```
 
+You can also use --dev to do a full npm install in the modules you are link
+
+```
+npm-link-local ~/Projects/test --relative
+```
+
 # TODO
 Tests

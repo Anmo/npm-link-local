@@ -5,12 +5,13 @@ var path = require('path');
 var execSync = require('child_process').execSync;
 
 var node_modules = 'node_modules';
-var installCmd = 'npm install --production';
+var installCmd = 'npm install';
+var prod = ' --production'
 
-var npmInstall = function(modulePath) {
+var npmInstall = function(modulePath, dev) {
 	console.log('Installing', modulePath);
 
-	return execSync(installCmd, {
+	return execSync(installCmd + (dev ? '' : prod), {
 		cwd: modulePath,
 		stdio: [0, 1, 2]
 	});
@@ -61,7 +62,7 @@ function relativizePath(target, link) {
 var npmLinkLocal = function(opts) {
     var modulesPath = opts._;
 	for (var i = 0, l = modulesPath.length; i < l; i++) {
-		npmInstall(modulesPath[i]);
+		npmInstall(modulesPath[i], opts.dev);
 		linkToNodeModules(modulesPath[i], opts.relative);
 	}
 };
