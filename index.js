@@ -8,7 +8,7 @@ var node_modules = 'node_modules';
 var installCmd = 'npm install';
 var prod = ' --production'
 
-var npmInstall = function(modulePath, dev) {
+function npmInstall(modulePath, dev) {
 	console.log('Installing', modulePath);
 
 	return execSync(installCmd + (dev ? '' : prod), {
@@ -17,7 +17,7 @@ var npmInstall = function(modulePath, dev) {
 	});
 };
 
-var linkToNodeModules = function(modulePath, relative) {
+function linkToNodeModules(modulePath, relative) {
 	var target = path.resolve(process.cwd(), modulePath);
 
 	var moduleName = modulePath.split('/');
@@ -37,34 +37,43 @@ var linkToNodeModules = function(modulePath, relative) {
 			//link didn't exists
 		}
 	}
+
 	if (relative) {
 		target = relativizePath(target, link);
 	}
-	console.log(link, '->', target);
 
+	console.log(link, '->', target);
 
 	return fs.symlinkSync(target, link, 'junction');
 };
 
 function relativizePath(target, link) {
-	var separator = /[\\/]/
-	var targetArr = target.split(separator),
-	    linkArr = link.split(separator),
-	    common = 0;
-	while (targetArr[common] === linkArr[common]) ++common
-	if (common === 0) return target;
-	targetArr = targetArr.slice(common)
-	linkArr = linkArr.slice(common)
-	var prefix = Array(linkArr.length).join('../') || './'
-	return prefix + targetArr.join('/')
+	var separator = /[\\/]/;
+	var targetArr = target.split(separator);
+	var linkArr = link.split(separator);
+	var common = 0;
+
+	while (targetArr[common] === linkArr[common]) {
+		++common;
+	}
+
+	if (common === 0) { return target; }
+
+	targetArr = targetArr.slice(common);
+	linkArr = linkArr.slice(common);
+
+	var prefix = Array(linkArr.length).join('../') || './';
+
+	return prefix + targetArr.join('/');
 }
 
-var npmLinkLocal = function(opts) {
-    var modulesPath = opts._;
+function npmLinkLocal(opts) {
+	var modulesPath = opts._;
+
 	for (var i = 0, l = modulesPath.length; i < l; i++) {
-		npmInstall(modulesPath[i], opts.dev);
+		opts.skip || npmInstall(modulesPath[i], opts.dev);
 		linkToNodeModules(modulesPath[i], opts.relative);
 	}
-};
+}
 
 module.exports = npmLinkLocal;
