@@ -4,8 +4,10 @@ var fs = require('fs');
 var path = require('path');
 var execSync = require('child_process').execSync;
 
+var shouldUseYarn = /^yarn/.test(process.env.npm_config_user_agent || '');
+
 var node_modules = 'node_modules';
-var installCmd = 'npm install';
+var installCmd = shouldUseYarn ? 'yarn' : 'npm install';
 var prod = ' --production'
 
 function npmInstall(modulePath, dev) {
