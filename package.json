@@ -1,6 +1,6 @@
 {
   "name": "npm-link-local",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "like npm link, but just local (npm install and symlink to node-modules)",
   "main": "index.js",
   "bin": {
