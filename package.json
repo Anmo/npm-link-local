@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Anmo/npm-link-local#readme",
   "dependencies": {
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "rimraf": "^2.6.1"
   }
 }

@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var rimraf = require('rimraf');
 var execSync = require('child_process').execSync;
 
 var shouldUseYarn = /^yarn/.test(process.env.npm_config_user_agent || '');
@@ -9,22 +10,6 @@ var shouldUseYarn = /^yarn/.test(process.env.npm_config_user_agent || '');
 var node_modules = 'node_modules';
 var installCmd = shouldUseYarn ? 'yarn' : 'npm i';
 var prod = ' --production';
-
-function deleteFolderRecursive(path) {
-  if(fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file) {
-      var curPath = path + "/" + file;
-
-      if(fs.statSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-
-    fs.rmdirSync(path);
-  }
-}
 
 function npmInstall(modulePath, dev) {
 	console.log('Installing', modulePath);
@@ -43,23 +28,14 @@ function linkToNodeModules(modulePath, relative) {
 
 	var link = path.resolve(process.cwd(), node_modules, moduleName);
 
+
 	//try to create node_modules
 	try {
-    fs.mkdirSync(node_modules);
+		fs.mkdirSync(node_modules);
 	} catch (e) {
-    //node_modules already exists
-		//try to unlink link
-		try {
-      fs.unlinkSync(link);
-		} catch (e) {
-    	//link didn't exists or is a directory
-      try {
-        deleteFolderRecursive(link);
-      } catch (e) {
-        //nothing to do here...
-      }
-		}
-	}
+		// remove existing module (will continue if it doesn't exist)
+		rimraf.sync(link)
+  }
 
 	if (relative) {
 		target = relativizePath(target, link);
