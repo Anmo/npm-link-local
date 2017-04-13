@@ -1,6 +1,6 @@
 {
   "name": "npm-link-local",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "like npm link, but just local (npm install and symlink to node-modules)",
   "main": "index.js",
   "bin": {
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Anmo/npm-link-local#readme",
   "dependencies": {
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "rimraf": "^2.6.1"
   }
 }
